@@ -32,7 +32,7 @@ RUN python3 -m venv envsubtrans \
     && . envsubtrans/bin/activate \
     && pip install --upgrade pip \
     && pip install openai \
-    && pip install --upgrade -r requirements.txt \
+    && pip install --upgrade -r requirements.txt
     # install other providers if needed
 
 # Make entrypoint.sh executable

@@ -50,11 +50,19 @@ Run the following command to translate all `.srt` files in a folder and its subf
 docker run --rm -v [path to subtitles folder]:/app/subtitles gpt-subtrans /app/subtitles [args]
 ```
 
+### Multi-threading Support
+
+The `folder-subtrans.py` script supports multi-threading. Use the `--max_workers` optional argument to specify the number of concurrent files to process:
+
+```bash
+docker run --rm -v [path to subtitles folder]:/app/subtitles gpt-subtrans /app/subtitles --max_workers [number of threads] [args]
+```
+
 ### Essential Arguments
 
 - `--moviename "movie name"`
 - `--description "movie description"`
-- `-l [target language name]`
+- `-l [language code]`
 
 All arguments and environment variables from the original repository can be used.
 
@@ -72,7 +80,9 @@ MAX_BATCH_SIZE=120
 
 ## Meta File Structure
 
-When translating multiple `.srt` files using the folder translate option, an optional `meta.json` file can be added in each folder containing `.srt` files or only at the top folder. The file should have the following structure:
+When translating multiple `.srt` files using the folder translate option, an optional `meta.json` file can be added in each folder containing `.srt` files or only at the top folder. The `folder-subtrans.py` script will search for metadata in the `meta.json` file starting from the current directory and traversing up to the root directory. If the `meta.json` file is not found in the current directory, it will search in the parent directory until it reaches the root directory. If the `meta.json` file is not found in any of the directories, it will use the default metadata values, which are the filename as the moviename without the extension and no description.
+
+The file should have the following structure:
 
 ```json
 {
